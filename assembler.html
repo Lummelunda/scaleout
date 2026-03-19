@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scaleout HTML Assembler + Preview</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <style>
+    body { background: #111; color: #eee; font-family: Arial, sans-serif; padding: 2rem; }
+    textarea { width: 100%; height: 200px; background: #222; color: #eee; border: 1px solid #555; padding: 0.5rem; font-family: monospace; }
+    button { margin: 0.5rem 0.5rem 0.5rem 0; padding: 0.5rem 1rem; background: #222; border: 1px solid #666; color: #eee; cursor: pointer; }
+    .tabs button { margin-right: 0.5rem; }
+    .tab-content { margin-top: 1rem; }
+    iframe { width: 100%; height: 600px; border: 1px solid #555; display: none; }
+    pre { background: #222; padding: 1rem; border: 1px solid #555; white-space: pre-wrap; display: none; overflow-x: auto; font-family: monospace; }
+    .active { display: block; }
+  </style>
+</head>
+<body>
+
+<p>Paste your content (without <code>&lt;main&gt;</code>) below and click Render:</p>
+
+<textarea id="userContent" placeholder="Paste your sections here..."></textarea>
+<br>
+<button onclick="assemblePage()">Render</button>
+<button onclick="copyHtml()">Copy HTML</button>
+<button onclick="downloadHtml()">Download HTML</button>
+
+<div class="tabs">
+  <button onclick="showTab('preview')">Rendered Preview</button>
+  <button onclick="showTab('code')">HTML Code</button>
+</div>
+
+<div class="tab-content">
+  <iframe id="preview"></iframe>
+  <pre id="output"><code class="html"></code></pre>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>
+let combinedHtml = '';
+let baseFrameHtml = '';
+
+// Load frame HTML on page load
+async function loadFrame() {
+  try {
+    const res = await fetch('https://raw.githubusercontent.com/Lummelunda/scaleout/refs/heads/main/frame.html');
+    if (!res.ok) throw new Error('Failed to fetch template');
+    baseFrameHtml = await res.text();
+
+    // Show the base frame in the iframe immediately
+    combinedHtml = baseFrameHtml;
+    const iframe = document.getElementById('preview');
+    iframe.srcdoc = baseFrameHtml;
+    showTab('preview');
+
+    // Show the code in the code tab too
+    const codeEl = document.querySelector('#output code');
+    codeEl.textContent = baseFrameHtml;
+    hljs.highlightElement(codeEl);
+
+  } catch (err) {
+    const iframe = document.getElementById('preview');
+    iframe.srcdoc = `<p style="color:red">Error loading template: ${err.message}</p>`;
+  }
+}
+
+async function assemblePage() {
+  const content = document.getElementById('userContent').value;
+  const iframe = document.getElementById('preview');
+  const codeEl = document.querySelector('#output code');
+
+  if (!baseFrameHtml) return alert('Frame not loaded yet');
+
+  // Inject user content after <!-- CONTENT -->
+  if (content) {
+    const injectionPoint = '<!-- CONTENT -->';
+    if (baseFrameHtml.includes(injectionPoint)) {
+      combinedHtml = baseFrameHtml.replace(injectionPoint, `${injectionPoint}\n${content}`);
+    } else {
+      combinedHtml = baseFrameHtml.replace('</main>', `${content}\n</main>`);
+    }
+  } else {
+    combinedHtml = baseFrameHtml;
+  }
+
+  iframe.srcdoc = combinedHtml;
+  codeEl.textContent = combinedHtml;
+  hljs.highlightElement(codeEl);
+
+  showTab('preview');
+}
+
+function showTab(tab) {
+  const iframe = document.getElementById('preview');
+  const pre = document.getElementById('output');
+  if (tab === 'preview') {
+    iframe.classList.add('active');
+    pre.classList.remove('active');
+  } else {
+    iframe.classList.remove('active');
+    pre.classList.add('active');
+  }
+}
+
+function copyHtml() {
+  if (!combinedHtml) return alert('Nothing to copy!');
+  navigator.clipboard.writeText(combinedHtml).then(() => alert('HTML copied to clipboard!'));
+}
+
+function downloadHtml() {
+  if (!combinedHtml) return alert('Nothing to download!');
+  const blob = new Blob([combinedHtml], { type: 'text/html' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'assembled.html';
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+// Load frame on page load
+window.addEventListener('load', loadFrame);
+</script>
+
+</body>
+</html>
