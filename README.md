@@ -1,3 +1,5 @@
+### Web page info
+
 Workshop date
 
 https://github.com/Lummelunda/workshop/blob/main/workshop.json
@@ -10,7 +12,6 @@ Form
 
 https://formspark.io
 
-Host
+Host (Cloudflare)
 
-scaleout.pages.dev
-
+https://scaleout.pages.dev/
