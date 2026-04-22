@@ -1,2 +1,16 @@
-Workshop json
-https://gist.github.com/Lummelunda/3a40fd7742ee55fe0175b67c1ca835fe
+Workshop date
+
+https://github.com/Lummelunda/workshop/blob/main/workshop.json
+
+Analytics public
+
+https://cloud.umami.is/analytics/eu/share/9nelH0ocPOxyE9GI
+
+Form
+
+https://formspark.io
+
+Host
+
+scaleout.pages.dev
+
