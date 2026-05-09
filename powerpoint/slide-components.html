@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════╗
+║  SLIDE COMPONENT LIBRARY  —  context file for Claude    ║
+║                                                          ║
+║  SECTION 1: Primitives  (slides 1–3)                    ║
+║    Colors, type scale, list styles, card styles          ║
+║                                                          ║
+║  SECTION 2: Layout Examples  (slides 4–12)              ║
+║    Realistic slides, one per layout pattern.             ║
+║    Each slide has an HTML comment naming the pattern.    ║
+╚══════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMPONENT REFERENCE  (Claude reads this section)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SLIDE SHELL
+  Every slide: <div class="slide"> … </div>
+  Title/section slides: add class "layout-center"
+  With header bar: <div class="slide-header"><span class="t-label">DECK</span><span class="t-label">SECTION</span></div>
+  Gradient background (title/closing): add class "slide-gradient" — primary color fades up from bottom half, transparent at center
+
+TEXT BLOCKS
+  [display]     .t-display    — 80px, weight 800. Title slides only.
+  [subtitle]    .t-subtitle   — 28px, primary color. Under display on title slide.
+  [slide-title] .slide-title  — 44px, weight 700. Top of every content slide.
+  [section]     .t-section    — 22px, weight 600, primary color. Sub-headings within a slide.
+  [body]        .t-body       — 20px, dim color. Prose paragraphs.
+  [callout]     .t-callout    — 22px, left border accent. One per slide max. Key insight.
+  [caption]     .t-caption    — 14px, muted. Below images or charts.
+  [label]       .t-label      — 11px uppercase, tracking. Header bars and meta only.
+
+LIST BLOCKS
+  [bullet-list]   .list-bullet    — Default. 3–5 items. General points, no implied order.
+  [numbered-list] .list-numbered  — Use only when order/sequence matters.
+  [icon-list]     .list-icon      — Icon + text rows. Features, benefits, properties.
+                                    Each item: <li><span class="ico"><i class="fa-solid fa-*"></i></span> text</li>
+
+CARD BLOCKS
+  [feature-card] .card             — Icon + title + body. Use in .layout-grid (3-up) or .layout-grid-2 (2-up).
+  [stat-card]    .card.stat-card   — Big number + label + optional delta. Use in .stats-row. Max 4 per slide.
+  [tag]          .tag              — Inline status badge. Variants: .tag-ok, .tag-warn, .tag-danger.
+
+MEDIA BLOCKS
+  [image-frame]  .img-frame   — Placeholder frame. Always add .t-caption below describing what image should show.
+  [code-block]   .code-block  — Dark monospace block. For technical content.
+  [divider]      .divider     — Gradient horizontal rule. Between sections within a slide.
+
+LAYOUT WRAPPERS  (see Section 2 for a realistic example of each)
+  [layout-center]   .layout-center   — Full-slide centering. Title slides and section breaks.
+  [layout-single]   .layout-single   — Centered single column, max 860px. Body text + one list or callout.
+  [layout-split]    .layout-split    — Left (520px fixed) + right (flex). Any two components side by side.
+                                       Left child:  <div class="split-left">
+                                       Right child: <div class="split-right">
+  [layout-grid]     .layout-grid     — 3-up equal card grid.
+  [layout-grid-2]   .layout-grid-2   — 2-up equal card grid.
+  [stats-row]       .stats-row       — Horizontal row of stat-cards. Flex, equal width.
+
+WHEN TO USE WHICH LAYOUT
+  Title slide        → layout-center + t-display + t-subtitle
+  Section break      → layout-center + t-display (smaller) + divider + t-subtitle
+  Key insight        → slide-title + layout-single + t-callout + t-body
+  Narrative / prose  → slide-title + layout-single + t-body + bullet-list
+  Steps / process    → slide-title + layout-single + numbered-list
+  Feature overview   → slide-title + layout-grid + 3× feature-card
+  2-up comparison    → slide-title + layout-grid-2 + 2× feature-card
+  Metrics            → slide-title + stats-row + 3–4× stat-card
+  Side-by-side lists → slide-title + layout-split + list left + list right
+  Image + points     → slide-title + layout-split + list left + img-frame right
+  Code + explanation → slide-title + layout-split + body+list left + code-block right
+  Closing            → layout-center + t-display (smaller) + t-subtitle
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Component Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ── TOKENS ── */
+        :root {
+            --bg-dark:   #0b0f19;
+            --bg-canvas: #04060a;
+            --primary:   #38bdf8;
+            --accent:    #7dd3fc;
+            --text-main: #f1f5f9;
+            --text-dim:  #94a3b8;
+            --text-muted:#475569;
+            --border:    #1e293b;
+            --ok:        #4ade80;
+            --warn:      #f59e0b;
+            --danger:    #f87171;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg-canvas);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 50px 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* ── SLIDE SHELL ── */
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: var(--bg-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        /* ── STRUCTURAL ── */
+        .slide-header {
+            position: absolute;
+            top: 36px; left: 60px; right: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .layout-center { justify-content: center; align-items: center; text-align: center; }
+        .slide-gradient { background: linear-gradient(to top, rgba(56,189,248,0.25) 0%, transparent 50%), var(--bg-dark); }
+        .layout-single { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; max-width: 860px; }
+        .layout-split { display: flex; align-items: center; flex-grow: 1; }
+        .layout-split > .split-left { width: 520px; flex-shrink: 0; padding-right: 60px; }
+        .layout-split > .split-right { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 16px; flex-grow: 1; }
+        .layout-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin-top: 16px; flex-grow: 1; }
+        .stats-row { display: flex; gap: 28px; margin-top: 20px; flex-grow: 1; align-items: center; }
+        .divider { height: 1px; background: var(--border); border: none; margin: 24px 0; width: 100%; }
+
+        /* ── TEXT BLOCKS ── */
+        .t-display { font-size: 80px; font-weight: 800; line-height: 1.1; color: var(--text-main); margin: 0; }
+        .t-subtitle { font-size: 28px; font-weight: 500; color: var(--primary); margin-top: 20px; }
+        .slide-title { font-size: 44px; font-weight: 700; line-height: 1.2; color: var(--text-main); margin: 0 0 36px 0; }
+        .t-section { font-size: 22px; font-weight: 600; color: var(--primary); margin: 0 0 16px 0; }
+        .t-body { font-size: 20px; color: var(--text-dim); line-height: 1.65; margin: 0 0 16px 0; }
+        .t-callout { font-size: 22px; color: var(--accent); border-left: 4px solid var(--primary); padding-left: 24px; line-height: 1.6; margin: 0 0 20px 0; }
+        .t-caption { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-top: 10px; }
+        .t-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+
+        /* ── LIST BLOCKS ── */
+        .list-bullet, .list-numbered, .list-icon { list-style: none; padding: 0; margin: 0; }
+        .list-bullet li, .list-numbered li, .list-icon li { font-size: 20px; color: var(--text-dim); line-height: 1.55; padding: 6px 0; }
+        .list-bullet li { display: flex; align-items: center; gap: 14px; padding-left: 0; }
+        .list-bullet li::before { content: ''; display: block; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+        .list-numbered { counter-reset: n; }
+        .list-numbered li { display: flex; align-items: center; gap: 12px; padding-left: 0; counter-increment: n; }
+        .list-numbered li::before { content: counter(n); display: flex; flex-shrink: 0; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--primary); background: rgba(56,189,248,0.1); border-radius: 50%; width: 20px; height: 20px; position: static; }
+        .list-icon li { display: flex; align-items: flex-start; gap: 14px; }
+        .list-icon li .ico { color: var(--primary); font-size: 18px; margin-top: 3px; flex-shrink: 0; width: 22px; text-align: center; }
+        .list-bullet li + li, .list-numbered li + li, .list-icon li + li { margin-top: 4px; }
+
+        /* ── CARD BLOCKS ── */
+        .card { background: var(--bg-canvas); border: 1px solid var(--border); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; }
+        .card .card-icon { font-size: 36px; color: var(--primary); margin-bottom: 18px; }
+        .card .card-title { font-size: 20px; font-weight: 600; color: var(--text-main); margin-bottom: 10px; }
+        .card .card-body { font-size: 17px; color: var(--text-dim); line-height: 1.6; flex-grow: 1; }
+        .stat-card { align-items: center; text-align: center; justify-content: center; flex: 1; }
+        .stat-card .stat-value { font-size: 64px; font-weight: 800; color: var(--primary); line-height: 1; }
+        .stat-card .stat-label { font-size: 16px; color: var(--text-dim); margin-top: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .stat-card .stat-delta { font-size: 14px; color: var(--ok); margin-top: 8px; }
+        .stat-card .stat-delta.down { color: var(--danger); }
+
+        /* ── TAGS ── */
+        .tag { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--primary); color: var(--primary); }
+        .tag-ok     { border-color: var(--ok);     color: var(--ok); }
+        .tag-warn   { border-color: var(--warn);   color: var(--warn); }
+        .tag-danger { border-color: var(--danger); color: var(--danger); }
+
+        /* ── MEDIA BLOCKS ── */
+        .img-frame { background: #000; border: 1px solid var(--border); border-radius: 12px; flex-grow: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; min-height: 200px; }
+        .code-block { background: #020408; border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace; font-size: 16px; color: var(--accent); line-height: 1.75; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     SECTION 1 — PRIMITIVES
+     ═══════════════════════════════ -->
+
+<!-- PRIMITIVE: colors -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Component Library</span>
+        <span class="t-label">Primitives · Colors</span>
+    </div>
+    <h2 class="slide-title">Color Tokens</h2>
+    <div style="display:flex;gap:16px;margin-bottom:32px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#38bdf8"></div>
+            <span class="t-caption" style="margin:0">primary</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#7dd3fc"></div>
+            <span class="t-caption" style="margin:0">accent</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#f1f5f9"></div>
+            <span class="t-caption" style="margin:0">text-main</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#94a3b8"></div>
+            <span class="t-caption" style="margin:0">text-dim</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#475569"></div>
+            <span class="t-caption" style="margin:0">text-muted</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#1e293b"></div>
+            <span class="t-caption" style="margin:0">border</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#0b0f19;border:1px solid #1e293b"></div>
+            <span class="t-caption" style="margin:0">bg-dark</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#04060a;border:1px solid #1e293b"></div>
+            <span class="t-caption" style="margin:0">bg-canvas</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#4ade80"></div>
+            <span class="t-caption" style="margin:0">ok</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#f59e0b"></div>
+            <span class="t-caption" style="margin:0">warn</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div style="width:64px;height:64px;border-radius:10px;background:#f87171"></div>
+            <span class="t-caption" style="margin:0">danger</span>
+        </div>
+    </div>
+    <p class="t-caption">All colors defined as CSS variables in :root — change a token once and it updates everywhere.</p>
+</div>
+
+<!-- PRIMITIVE: type scale -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Component Library</span>
+        <span class="t-label">Primitives · Typography</span>
+    </div>
+    <h2 class="slide-title">Type Scale</h2>
+    <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="t-display" style="font-size:48px;margin:0">Display — 80px weight 800. Title slides only.</div>
+        <div class="t-subtitle" style="margin:0">Subtitle — 28px weight 500, primary color. Under display.</div>
+        <div class="t-section" style="margin:0">Section label — 22px weight 600, primary color. Sub-headings within a slide.</div>
+        <div class="t-body" style="margin:0">Body — 20px weight 400, dim color. Supporting prose and explanations. Keep to 2–3 lines.</div>
+        <div class="t-callout" style="margin:0">Callout — 22px, left border accent. One key insight per slide maximum.</div>
+        <div class="t-caption" style="margin:0">Caption — 14px muted. Below images or figures only.</div>
+        <div class="t-label">Label — 11px uppercase. Header bars and meta info only.</div>
+    </div>
+</div>
+
+<!-- PRIMITIVE: lists and cards -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Component Library</span>
+        <span class="t-label">Primitives · Lists & Cards</span>
+    </div>
+    <h2 class="slide-title">Lists & Cards</h2>
+    <div class="layout-split">
+        <div class="split-left">
+            <div class="t-section">Three list styles</div>
+            <ul class="list-bullet" style="margin-bottom:20px">
+                <li>Bullet — general points, no order implied</li>
+                <li>3–5 items maximum per list</li>
+            </ul>
+            <ol class="list-numbered" style="margin-bottom:20px">
+                <li>Numbered — sequence or priority only</li>
+                <li>Use only when order matters</li>
+            </ol>
+            <ul class="list-icon">
+                <li><span class="ico"><i class="fa-solid fa-bolt"></i></span>Icon list — features or benefits</li>
+                <li><span class="ico"><i class="fa-solid fa-shield-halved"></i></span>Pick icons that match the content</li>
+            </ul>
+        </div>
+        <div class="split-right">
+            <div class="t-section">Card styles & tags</div>
+            <div class="card" style="margin-bottom:20px">
+                <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                <div class="card-title">Feature card</div>
+                <div class="card-body">Icon + title + body. Use in 2-up or 3-up grid. Keep all cards parallel in length.</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <span class="tag">Default</span>
+                <span class="tag tag-ok">Complete</span>
+                <span class="tag tag-warn">Blocked</span>
+                <span class="tag tag-danger">Critical</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════
+     SECTION 2 — LAYOUT EXAMPLES
+     ═══════════════════════════════ -->
+
+<!-- LAYOUT: title -->
+<div class="slide layout-center slide-gradient">
+    <h1 class="t-display">Presentation Title</h1>
+    <div class="t-subtitle">A clear, compelling subtitle · Author · Date</div>
+</div>
+
+<!-- LAYOUT: section-break -->
+<div class="slide layout-center">
+    <h2 class="t-display" style="font-size:56px">Section Name</h2>
+    <div class="t-subtitle" style="font-size:22px">A short framing line for this section</div>
+</div>
+
+<!-- LAYOUT: single-col-callout -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">A Key Insight Slide</h2>
+    <div class="layout-single">
+        <div class="t-callout">The most important idea on this slide, isolated so it lands. One sentence, direct.</div>
+        <p class="t-body">Supporting context that explains or qualifies the callout above. Keep to two or three lines — this is reinforcement, not the main point.</p>
+        <ul class="list-bullet">
+            <li>A supporting detail that backs the callout</li>
+            <li>A second supporting detail</li>
+            <li>A third if needed — no more than five total</li>
+        </ul>
+    </div>
+</div>
+
+<!-- LAYOUT: stats-row -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">Key Metrics</h2>
+    <div class="stats-row">
+        <div class="card stat-card">
+            <div class="stat-value">94%</div>
+            <div class="stat-label">Customer Satisfaction</div>
+            <div class="stat-delta">↑ 12% vs last quarter</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-value">2.4M</div>
+            <div class="stat-label">Active Users</div>
+            <div class="stat-delta">↑ 340k this month</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-value">99.9%</div>
+            <div class="stat-label">Uptime SLA</div>
+            <div class="stat-delta">↑ On target</div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-value">18ms</div>
+            <div class="stat-label">Avg. Response Time</div>
+            <div class="stat-delta down">↓ 3ms above target</div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT: feature-grid (3-up) -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">Three Core Capabilities</h2>
+    <div class="layout-grid">
+        <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="card-title">First Capability</div>
+            <div class="card-body">A two-line description of what this does and why it matters to the audience.</div>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="card-title">Second Capability</div>
+            <div class="card-body">Keep all three cards parallel in structure, length, and level of detail.</div>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="card-title">Third Capability</div>
+            <div class="card-body">Pick icons that semantically match the content, not just visually fill the space.</div>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT: split-two-lists -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">Before vs After</h2>
+    <div style="display:flex;flex-grow:1;align-items:center;gap:0">
+        <div style="flex:1;padding-right:48px">
+            <div class="t-section" style="color:var(--danger)">Before</div>
+            <ul class="list-icon">
+                <li><span class="ico" style="color:var(--danger)"><i class="fa-solid fa-xmark"></i></span>First pain point or problem</li>
+                <li><span class="ico" style="color:var(--danger)"><i class="fa-solid fa-xmark"></i></span>Second pain point or problem</li>
+                <li><span class="ico" style="color:var(--danger)"><i class="fa-solid fa-xmark"></i></span>Third pain point or problem</li>
+                <li><span class="ico" style="color:var(--danger)"><i class="fa-solid fa-xmark"></i></span>Fourth pain point or problem</li>
+            </ul>
+        </div>
+        <div style="width:1px;background:var(--border);align-self:stretch;flex-shrink:0"></div>
+        <div style="flex:1;padding-left:48px">
+            <div class="t-section" style="color:var(--ok)">After</div>
+            <ul class="list-icon">
+                <li><span class="ico" style="color:var(--ok)"><i class="fa-solid fa-check"></i></span>First improvement or benefit</li>
+                <li><span class="ico" style="color:var(--ok)"><i class="fa-solid fa-check"></i></span>Second improvement or benefit</li>
+                <li><span class="ico" style="color:var(--ok)"><i class="fa-solid fa-check"></i></span>Third improvement or benefit</li>
+                <li><span class="ico" style="color:var(--ok)"><i class="fa-solid fa-check"></i></span>Fourth improvement or benefit</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT: split-image -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">Visual + Key Points</h2>
+    <div class="layout-split" style="flex-grow:1">
+        <div class="split-left" style="display:flex;flex-direction:column;justify-content:center">
+            <p class="t-body">A short intro sentence that frames what the visual shows.</p>
+            <ul class="list-bullet">
+                <li>First point that relates to the image</li>
+                <li>Second point that relates to the image</li>
+                <li>Third point that relates to the image</li>
+            </ul>
+        </div>
+        <div class="split-right" style="display:flex;flex-direction:column">
+            <div class="img-frame" style="flex:1">[ describe what image should show ]</div>
+            <p class="t-caption">Figure 1 — caption describing the image or diagram</p>
+        </div>
+    </div>
+</div>
+
+<!-- LAYOUT: single-col-steps -->
+<div class="slide">
+    <div class="slide-header">
+        <span class="t-label">Deck Name</span>
+        <span class="t-label">Section Name</span>
+    </div>
+    <h2 class="slide-title">How It Works</h2>
+    <div class="layout-single">
+        <ol class="list-numbered">
+            <li>First step — describe the action and what it produces</li>
+            <li>Second step — describe the action and what it produces</li>
+            <li>Third step — describe the action and what it produces</li>
+            <li>Fourth step — describe the action and what it produces</li>
+            <li>Fifth step — describe the outcome or result of the process</li>
+        </ol>
+    </div>
+</div>
+
+<!-- LAYOUT: closing -->
+<div class="slide layout-center">
+    <h2 class="t-display" style="font-size:56px">Thank you.</h2>
+    <div class="t-subtitle">YOURCOMPANY.COM</div>
+</div>
+
+</body>
+</html>
