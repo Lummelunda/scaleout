@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--
 ╔══════════════════════════════════════════════════════════╗
@@ -20,7 +19,7 @@ SLIDE SHELL
   Every slide: <div class="slide"> … </div>
   Title/section slides: add class "layout-center"
   With header bar: <div class="slide-header"><span class="t-label">DECK</span><span class="t-label">SECTION</span></div>
-  Gradient background (title/closing): add class "slide-gradient" — primary color fades up from bottom half, transparent at center
+
 
 TEXT BLOCKS
   [display]     .t-display    — 80px, weight 800. Title slides only.
@@ -131,7 +130,6 @@ WHEN TO USE WHICH LAYOUT
             justify-content: space-between;
         }
         .layout-center { justify-content: center; align-items: center; text-align: center; }
-        .slide-gradient { background: linear-gradient(to top, rgba(56,189,248,0.25) 0%, transparent 50%), var(--bg-dark); }
         .layout-single { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; max-width: 860px; }
         .layout-split { display: flex; align-items: center; flex-grow: 1; }
         .layout-split > .split-left { width: 520px; flex-shrink: 0; padding-right: 60px; }
@@ -311,7 +309,7 @@ WHEN TO USE WHICH LAYOUT
      ═══════════════════════════════ -->
 
 <!-- LAYOUT: title -->
-<div class="slide layout-center slide-gradient">
+<div class="slide layout-center">
     <h1 class="t-display">Presentation Title</h1>
     <div class="t-subtitle">A clear, compelling subtitle · Author · Date</div>
 </div>
