@@ -15,3 +15,11 @@ https://formspark.io
 Host (Cloudflare)
 
 https://scaleout.pages.dev/
+
+Base URL for page images:
+
+https://lummelunda.github.io/scaleout/images/
+
+Base URL for post images:
+
+https://lummelunda.github.io/scaleout/post_images/
