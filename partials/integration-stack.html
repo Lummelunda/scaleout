@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaleout Edge — Integration Stack</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes dash-march { to { stroke-dashoffset: -40; } }
+        html, body { color-scheme: light; }
+        /* Hardcoded backgrounds */
+        body { background: #F2F2F2; }
+        .card { background: #FFFFFF; }
+        /* Hardcoded borders */
+        .card-bordered { border-color: #E5E7EB; }
+        /* Hardcoded badge colors */
+        .badge-ghost { background-color: #F1F3F5; color: #374151; border-color: transparent; }
+        .badge-outline { background-color: transparent; border-color: #D1D5DB; color: #4B5563; }
+        .badge-outline.badge-primary { border-color: #6366F1; color: #6366F1; }
+        /* Hardcoded (darker) text */
+        .text-base-content\/70 { color: #1F2937 !important; }
+        .text-base-content\/60 { color: #374151 !important; }
+        .text-base-content\/40 { color: #6B7280 !important; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-8">
+
+<div id="scale-wrap" style="transform-origin: center center;">
+<div class="w-full max-w-5xl mx-auto">
+
+    <!-- Header -->
+    <div class="text-center mb-10">
+        <div class="badge badge-outline badge-primary mb-3">Integration</div>
+        <h2 class="text-2xl font-bold">Where Scaleout Edge fits in your stack</h2>
+        <p class="mt-2 text-base-content/70 max-w-xl mx-auto text-sm">
+            Your frameworks, cloud platforms, and MLOps tooling stay in place. Scaleout Edge handles the distributed execution layer.
+        </p>
+    </div>
+
+    <!-- Grid -->
+    <div id="grid-container" class="relative grid grid-cols-1 md:grid-cols-[1fr_64px_1fr] gap-y-3 md:items-stretch">
+
+        <!-- LEFT: Server-side — flex col, justified so server card sits in middle -->
+        <div class="flex flex-col gap-3 justify-center">
+
+            <div class="text-xs font-mono uppercase tracking-wider text-base-content/40 text-center">Server-side</div>
+
+            <div class="card card-bordered shadow-sm">
+                <div class="card-body p-4">
+                    <div class="badge badge-ghost badge-sm mb-2">ML Frameworks &amp; Libraries</div>
+                    <p class="text-xs text-base-content/60 mb-3">Your ML code stays in the framework you already use. Scaleout wraps it into a Compute Package for edge distribution, no rewrite required.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-outline badge-sm">PyTorch</span>
+                        <span class="badge badge-outline badge-sm">Keras</span>
+                        <span class="badge badge-outline badge-sm">TensorFlow</span>
+                        <span class="badge badge-outline badge-sm">Scikit-learn</span>
+                        <span class="badge badge-outline badge-sm">TFLite</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-bordered shadow-sm">
+                <div class="card-body p-4">
+                    <div class="badge badge-ghost badge-sm mb-2">ML Platforms &amp; Workflow</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-outline badge-sm">SageMaker</span>
+                        <span class="badge badge-outline badge-sm">Azure ML</span>
+                        <span class="badge badge-outline badge-sm">Vertex AI</span>
+                        <span class="badge badge-outline badge-sm">KubeFlow</span>
+                        <span class="badge badge-outline badge-sm">MLFlow</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="card-server" class="card shadow-md" style="border:2px solid #6366f1;">
+                <div class="card-body p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge badge-sm text-white" style="background:#6366f1;">Scaleout Edge</span>
+                        <span class="text-xs text-base-content/40 font-mono">Server-side</span>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-2">Orchestrate models &amp; fleets</h3>
+                    <ul class="space-y-1.5 text-xs text-base-content/70">
+                        <li><span class="font-semibold text-base-content">REST API &amp; Web UI:</span> Manage sessions, models, and fleet configuration. No custom client required.</li>
+                        <li><span class="font-semibold text-base-content">Model Registry:</span> Version, stage, and distribute models. Supports import/export for interop with MLFlow and existing pipelines.</li>
+                        <li><span class="font-semibold text-base-content">Observability Backend:</span> Fleet-wide dashboards for training metrics, node health, and model lineage. Metrics export to Grafana, Prometheus, and Datadog.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card-bordered shadow-sm">
+                <div class="card-body p-4">
+                    <div class="badge badge-ghost badge-sm mb-2">Cloud &amp; Infrastructure</div>
+                    <p class="text-xs text-base-content/60 mb-3">Runs on any standard cloud or on-prem infrastructure. Can be deployed entirely within a controlled perimeter — on-premises, national cloud, or air-gapped.</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-outline badge-sm">AWS</span>
+                        <span class="badge badge-outline badge-sm">Azure</span>
+                        <span class="badge badge-outline badge-sm">Google Cloud</span>
+                        <span class="badge badge-outline badge-sm">Oracle</span>
+                        <span class="badge badge-outline badge-sm">Kubernetes</span>
+                        <span class="badge badge-outline badge-sm">OpenStack</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CENTER: SVG connector — spans full height -->
+        <div class="hidden md:block" id="center-col">
+            <svg id="connector-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:10;" aria-hidden="true">
+                <defs>
+                    <marker id="arrow-right" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 z" fill="rgba(99,102,241,0.6)"/>
+                    </marker>
+                    <marker id="arrow-left" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse">
+                        <path d="M0,0 L0,6 L8,3 z" fill="rgba(99,102,241,0.6)"/>
+                    </marker>
+                </defs>
+                <path id="curve-glow-a" fill="none" stroke="rgba(99,102,241,0.08)" stroke-width="8" stroke-linecap="round"/>
+                <path id="curve-glow-b" fill="none" stroke="rgba(99,102,241,0.08)" stroke-width="8" stroke-linecap="round"/>
+                <path id="curve-a" fill="none" stroke="rgba(99,102,241,0.35)" stroke-width="1.5" stroke-dasharray="6 4" stroke-linecap="round" marker-end="url(#arrow-right)" style="animation:dash-march 1.6s linear infinite"/>
+                <path id="curve-b" fill="none" stroke="rgba(99,102,241,0.35)" stroke-width="1.5" stroke-dasharray="6 4" stroke-linecap="round" marker-start="url(#arrow-left)" style="animation:dash-march 1.6s linear infinite reverse;animation-delay:-0.8s"/>
+            </svg>
+        </div>
+
+        <!-- RIGHT: Client-side — centered vertically -->
+        <div class="flex flex-col gap-3 justify-center">
+
+            <div class="text-xs font-mono uppercase tracking-wider text-base-content/40 text-center">Client-side</div>
+
+            <div id="card-client" class="card shadow-md" style="border:2px solid #6366f1;">
+                <div class="card-body p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge badge-sm text-white" style="background:#6366f1;">Scaleout Edge</span>
+                        <span class="text-xs text-base-content/40 font-mono">Client-side</span>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">Run on constrained hardware</h3>
+                    <p class="text-xs text-base-content/60 mb-2">Lightweight SDKs that run on constrained hardware. Three languages, minimal dependencies.</p>
+                    <ul class="space-y-1.5 text-xs text-base-content/70">
+                        <li><span class="font-semibold text-base-content">Python SDK:</span> Full training and inference. For devices with standard compute, Jetson, x86 edge servers, on-prem nodes.</li>
+                        <li><span class="font-semibold text-base-content">C++ SDK:</span> For embedded systems and resource-constrained hardware where Python isn't viable.</li>
+                        <li><span class="font-semibold text-base-content">Kotlin SDK:</span> For Android-based edge devices and mobile platforms.</li>
+                    </ul>
+                    <p class="text-xs text-base-content/40 mt-2">Built-in local telemetry captures CPU/GPU load, memory, battery, and training metrics with no additional instrumentation.</p>
+                </div>
+            </div>
+
+            <div class="card card-bordered shadow-sm">
+                <div class="card-body p-4">
+                    <div class="badge badge-ghost badge-sm mb-2">Hardware Targets</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="badge badge-outline badge-sm">NVIDIA Jetson</span>
+                        <span class="badge badge-outline badge-sm">Raspberry Pi</span>
+                        <span class="badge badge-outline badge-sm">x86 Edge Servers</span>
+                        <span class="badge badge-outline badge-sm">Android (experimental)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+<script>
+function getScale() {
+    var wrap = document.getElementById('scale-wrap');
+    var s = wrap && wrap.dataset.scale ? parseFloat(wrap.dataset.scale) : 1;
+    return s || 1;
+}
+
+function fitScale() {
+    var wrap = document.getElementById('scale-wrap');
+    if (!wrap) return;
+    wrap.style.transform = 'none';                 // reset to measure natural size
+    var rect = wrap.getBoundingClientRect();
+    var margin = 64;                               // breathing room around the box
+    var availW = window.innerWidth  - margin;
+    var availH = window.innerHeight - margin;
+    var scale = Math.min(1, availW / rect.width, availH / rect.height);
+    if (!isFinite(scale) || scale <= 0) scale = 1;
+    wrap.style.transform = 'scale(' + scale + ')';
+    wrap.dataset.scale = scale;
+}
+
+function drawConnector() {
+    var server = document.getElementById('card-server');
+    var client = document.getElementById('card-client');
+    var svg    = document.getElementById('connector-svg');
+    var grid   = document.getElementById('grid-container');
+    if (!server || !client || !svg || !grid) return;
+
+    var s = getScale();
+    var gRect = grid.getBoundingClientRect();
+    var lRect = server.getBoundingClientRect();
+    var rRect = client.getBoundingClientRect();
+
+    // getBoundingClientRect is post-transform; divide by scale to get the
+    // wrapper's own (unscaled) CSS pixels, since the SVG is scaled too.
+    var x1 = (lRect.right - gRect.left) / s;
+    var y1 = (lRect.top   - gRect.top)  / s + (lRect.height / s) * 0.5;
+    var x2 = (rRect.left  - gRect.left) / s;
+    var y2 = (rRect.top   - gRect.top)  / s + (rRect.height / s) * 0.5;
+
+    var cx  = (x1 + x2) / 2;
+    var off = 16;
+
+    var d1 = 'M'+x1+','+(y1-off)+' C'+cx+','+(y1-off)+' '+cx+','+(y2-off)+' '+x2+','+(y2-off);
+    var d2 = 'M'+x1+','+(y1+off)+' C'+cx+','+(y1+off)+' '+cx+','+(y2+off)+' '+x2+','+(y2+off);
+
+    ['curve-a','curve-glow-a'].forEach(function(id){
+        var el = document.getElementById(id); if (el) el.setAttribute('d', d1);
+    });
+    ['curve-b','curve-glow-b'].forEach(function(id){
+        var el = document.getElementById(id); if (el) el.setAttribute('d', d2);
+    });
+
+    // Anchor the SVG to the grid (absolute, scrolls with content) in unscaled px
+    var gw = gRect.width / s, gh = gRect.height / s;
+    svg.setAttribute('viewBox', '0 0 ' + gw + ' ' + gh);
+    svg.style.position = 'absolute';
+    svg.style.left   = '0px';
+    svg.style.top    = '0px';
+    svg.style.width  = gw + 'px';
+    svg.style.height = gh + 'px';
+    svg.style.pointerEvents = 'none';
+    svg.style.zIndex = '10';
+}
+
+function relayout() {
+    fitScale();
+    drawConnector();
+}
+
+window.addEventListener('load', relayout);
+window.addEventListener('resize', relayout);
+</script>
+
+</body>
+</html>
