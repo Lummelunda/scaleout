@@ -9,7 +9,6 @@
                     </svg>
                 </a>
             </div>
-
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal gap-1 px-1 font-medium">
                     <li><a href="platform.html">Platform</a></li>
@@ -18,20 +17,17 @@
                     <li><a href="company.html">Company</a></li>
                 </ul>
             </div>
-
             <div class="navbar-end gap-2">
-
                 <div class="hidden lg:block">
                     <a href="contact.html" class="btn btn-outline btn-sm">Contact</a>
                 </div>
-
                 <!-- Mobile menu -->
                 <div class="lg:hidden">
-                    <div class="dropdown dropdown-end">
-                        <div tabindex="0" role="button" class="btn btn-square btn-ghost" aria-label="Open menu">
-                            <iconify-icon icon="lucide:menu" class="text-xl"></iconify-icon>
-                        </div>
-                        <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 font-medium shadow">
+                    <details class="dropdown dropdown-end">
+                        <summary class="btn btn-square btn-ghost" aria-label="Open menu">
+                            <iconify-icon icon="lucide:menu" class="text-xl" aria-hidden="true"></iconify-icon>
+                        </summary>
+                        <ul class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 font-medium shadow">
                             <li><a href="platform.html">Platform</a></li>
                             <li><a href="tactical-cv-network.html">Solutions</a></li>
                             <li><a href="news.html">News</a></li>
@@ -40,7 +36,7 @@
                                 <a href="contact.html" class="btn btn-outline btn-sm">Contact</a>
                             </li>
                         </ul>
-                    </div>
+                    </details>
                 </div>
             </div>
         </div>
