@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="business">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#202020" />
+<title>Where Scaleout Edge fits in your stack — Scaleout</title>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/theme/business.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<style>
+  /* fieldset-legend label: punches through the box border, matching the page background */
+  .legend { background: var(--color-base-200); }
+</style>
+</head>
+<body class="min-h-screen bg-base-200 text-base-content antialiased flex items-center justify-center p-4 lg:p-10">
+
+<main class="relative w-full max-w-6xl">
+
+  <div class="grid grid-cols-1 items-start gap-y-10 lg:grid-cols-2 lg:gap-x-16">
+
+    <div class="flex flex-col gap-6">
+      <p class="text-center text-sm font-semibold text-base-content/40">Server-side</p>
+
+      <div class="relative rounded-box border border-base-300 bg-base-100 px-4 pb-4 pt-5">
+        <span class="legend absolute -top-2.5 left-4 px-2 font-mono text-[11px] font-bold uppercase tracking-wider text-base-content/70">ML Frameworks &amp; Libraries</span>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-sm text-base-content/80">
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:pytorch-icon" class="text-base"></iconify-icon><span>PyTorch</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="devicon:keras" class="text-base"></iconify-icon><span>Keras</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="devicon:tensorflow" class="text-base"></iconify-icon><span>TensorFlow</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="devicon:scikitlearn" class="text-base"></iconify-icon><span>Scikit-learn</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="devicon:tensorflow" class="text-base"></iconify-icon><span>TFLite</span></div>
+        </div>
+      </div>
+
+      <div class="relative rounded-box border border-base-300 bg-base-100 px-4 pb-4 pt-5">
+        <span class="legend absolute -top-2.5 left-4 px-2 font-mono text-[11px] font-bold uppercase tracking-wider text-base-content/70">ML Platform &amp; Workflow</span>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-sm text-base-content/80">
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:aws" class="text-base grayscale brightness-200"></iconify-icon><span>SageMaker</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:azure-icon" class="text-base"></iconify-icon><span>Azure ML</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:google-cloud" class="text-base"></iconify-icon><span>Vertex AI</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="devicon:kubeflow" class="text-base"></iconify-icon><span>KubeFlow</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="simple-icons:mlflow" class="text-base"></iconify-icon><span>MLFlow</span></div>
+        </div>
+      </div>
+
+      <div id="se-server" class="relative rounded-box border-2 border-primary bg-base-100 px-4 pb-4 pt-6">
+        <span class="absolute -top-3 left-4 badge badge-primary badge-sm font-mono font-bold uppercase tracking-wider">Scaleout Edge</span>
+        <div class="mb-4 flex items-center justify-between gap-3 border-b border-base-300 pb-2">
+          <h3 class="text-base font-bold tracking-tight text-base-content">Orchestrate models &amp; fleets</h3>
+          <span class="font-mono text-[11px] uppercase tracking-wider text-base-content/40">Server-side</span>
+        </div>
+        <div class="flex flex-col gap-3.5">
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="lucide:layout-dashboard" class="mt-0.5 shrink-0 text-base text-primary"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">REST API &amp; Web UI:</span> <span class="text-base-content/60">Manage sessions, models, and fleet configuration. No custom client required.</span></p>
+          </div>
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="lucide:library" class="mt-0.5 shrink-0 text-base text-primary"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">Model Registry:</span> <span class="text-base-content/60">Version, stage, and distribute models.</span></p>
+          </div>
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="lucide:activity" class="mt-0.5 shrink-0 text-base text-primary"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">Observability Backend:</span> <span class="text-base-content/60">Fleet-wide dashboards for training metrics, node health, and model lineage.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative rounded-box border border-base-300 bg-base-100 px-4 pb-4 pt-5">
+        <span class="legend absolute -top-2.5 left-4 px-2 font-mono text-[11px] font-bold uppercase tracking-wider text-base-content/70">Cloud Platforms &amp; Infrastructure</span>
+        <p class="mb-3 text-sm leading-relaxed text-base-content/60">Runs on any standard cloud or on-prem infrastructure. Can be deployed entirely within a controlled perimeter, on-premises, national cloud, or air-gapped.</p>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-base-300/60 pt-3 font-mono text-sm text-base-content/70">
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:aws" class="text-base grayscale brightness-200"></iconify-icon><span>AWS</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="simple-icons:oracle" class="text-base"></iconify-icon><span>Oracle</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:kubernetes" class="text-base"></iconify-icon><span>Kubernetes</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:azure-icon" class="text-base"></iconify-icon><span>Azure</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:openstack-icon" class="text-base"></iconify-icon><span>OpenStack</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:google-cloud" class="text-base"></iconify-icon><span>Google Cloud</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <p class="text-center text-sm font-semibold text-base-content/40">Client-side</p>
+
+      <p class="text-sm leading-relaxed text-base-content/60">Your frameworks, cloud platforms, and MLOps tooling stay in place. Scaleout Edge handles the distributed execution layer.</p>
+
+      <div id="se-client" class="relative rounded-box border-2 border-primary bg-base-100 px-4 pb-4 pt-6">
+        <span class="absolute -top-3 left-4 badge badge-primary badge-sm font-mono font-bold uppercase tracking-wider">Scaleout Edge</span>
+        <div class="mb-3 flex items-center justify-between gap-3 border-b border-base-300 pb-2">
+          <h3 class="text-base font-bold tracking-tight text-base-content">Run on constrained hardware</h3>
+          <span class="font-mono text-[11px] uppercase tracking-wider text-base-content/40">Client-side</span>
+        </div>
+        <p class="mb-4 text-sm leading-relaxed text-base-content/60">Lightweight SDKs that run on constrained hardware. Three languages, minimal dependencies.</p>
+        <div class="flex flex-col gap-3.5">
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="logos:python" class="mt-0.5 shrink-0 text-base"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">Python SDK:</span> <span class="text-base-content/60">Full training and inference. For devices with standard compute, Jetson, x86 edge servers, on-prem nodes.</span></p>
+          </div>
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="logos:c-plusplus" class="mt-0.5 shrink-0 text-base"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">C++ SDK:</span> <span class="text-base-content/60">For embedded systems and resource-constrained hardware where Python isn't viable.</span></p>
+          </div>
+          <div class="flex gap-3">
+            <iconify-icon aria-hidden="true" icon="logos:kotlin-icon" class="mt-0.5 shrink-0 text-base"></iconify-icon>
+            <p class="text-sm leading-relaxed"><span class="font-semibold text-base-content">Kotlin SDK:</span> <span class="text-base-content/60">For Android-based edge devices and mobile platforms.</span></p>
+          </div>
+        </div>
+        <p class="mt-4 border-t border-base-300 pt-4 text-sm leading-relaxed text-base-content/60">Built-in local telemetry captures CPU/GPU load, memory, battery, and training metrics with no additional instrumentation.</p>
+      </div>
+
+      <div class="relative rounded-box border border-base-300 bg-base-100 px-4 pb-4 pt-5">
+        <span class="legend absolute -top-2.5 left-4 px-2 font-mono text-[11px] font-bold uppercase tracking-wider text-base-content/70">Hardware Targets</span>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-sm text-base-content/80">
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:nvidia" class="text-base"></iconify-icon><span>Jetson</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:raspberry-pi" class="text-base"></iconify-icon><span>Raspberry Pi</span></div>
+          <div class="flex items-center gap-1.5"><iconify-icon icon="logos:android-icon" class="text-base"></iconify-icon><span>Android</span></div>
+          <span>x86 Edge Servers</span>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <svg id="connSvg" class="pointer-events-none absolute inset-0 h-full w-full text-primary" style="display:none">
+    <line id="connLine" stroke="currentColor" stroke-width="2"></line>
+    <circle id="connDotA" fill="currentColor" r="4"></circle>
+    <circle id="connDotB" fill="currentColor" r="4"></circle>
+  </svg>
+
+</main>
+
+<script>
+(function(){
+  const main=document.querySelector('main');
+  const a=document.getElementById('se-server');
+  const b=document.getElementById('se-client');
+  const svg=document.getElementById('connSvg');
+  const line=document.getElementById('connLine');
+  const dotA=document.getElementById('connDotA');
+  const dotB=document.getElementById('connDotB');
+  function draw(){
+    const m=main.getBoundingClientRect(), ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
+    if(ra.right > rb.left-8){ svg.style.display='none'; return; } // stacked -> no line
+    const x1=ra.right-m.left, y1=ra.top+ra.height/2-m.top;
+    const x2=rb.left-m.left,  y2=rb.top+rb.height/2-m.top;
+    line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    dotA.setAttribute('cx',x1); dotA.setAttribute('cy',y1);
+    dotB.setAttribute('cx',x2); dotB.setAttribute('cy',y2);
+    svg.style.display='block';
+  }
+  draw();
+  window.addEventListener('resize',draw);
+  window.addEventListener('load',draw);
+  setTimeout(draw,200); setTimeout(draw,700); // redraw after the CDN/Tailwind layout settles
+})();
+</script>
+</body>
+</html>
